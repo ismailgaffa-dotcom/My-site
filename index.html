@@ -3,118 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ismail AI Interface</title>
+    <title>Ismail AI - Weather Expert</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #343541;
-            --sidebar-color: #202123;
-            --text-color: #ececf1;
-            --input-bg: #40414f;
-        }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        .chat-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .message {
-            max-width: 800px;
-            width: 100%;
-            padding: 20px;
-            display: flex;
-            gap: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .avatar {
-            width: 30px;
-            height: 30px;
-            background: #10a37f;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .input-area {
-            padding: 20px;
-            background: linear-gradient(transparent, var(--bg-color));
-            display: flex;
-            justify-content: center;
-        }
-        .input-box {
-            max-width: 800px;
-            width: 100%;
-            background: var(--input-bg);
-            border-radius: 12px;
-            padding: 12px 15px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-        }
-        input {
-            background: transparent;
-            border: none;
-            color: white;
-            flex: 1;
-            outline: none;
-            font-size: 16px;
-        }
-        .btn-social {
-            color: #acacbe;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 14px;
-        }
-        .btn-social:hover { color: white; }
+        :root { --bg-color: #343541; --sidebar-color: #202123; --text-color: #ececf1; --input-bg: #40414f; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        .chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
+        .message { max-width: 800px; width: 100%; margin: 0 auto; padding: 20px; display: flex; gap: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); animation: fadeIn 0.5s; }
+        .avatar { width: 30px; height: 30px; border-radius: 2px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .ai-avatar { background: #10a37f; }
+        .user-avatar { background: #5436da; }
+        .input-area { padding: 20px; background: linear-gradient(transparent, var(--bg-color)); display: flex; flex-direction: column; align-items: center; }
+        .input-box { max-width: 800px; width: 100%; background: var(--input-bg); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        input { background: transparent; border: none; color: white; flex: 1; outline: none; font-size: 16px; padding: 0 10px; }
+        button { background: transparent; border: none; color: #10a37f; cursor: pointer; font-size: 18px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="chat-container">
+    <div class="chat-container" id="chatHistory">
         <div class="message">
-            <div class="avatar">I</div>
-            <div class="content">
-                <strong>إسماعيل AI:</strong>
-                <p>مرحباً بك! أنا مطور تقني أستخدم Termux. كيف يمكنني مساعدتك اليوم؟</p>
-                <div id="weather-info">جاري جلب بيانات الطقس...</div>
-            </div>
+            <div class="avatar ai-avatar">I</div>
+            <div class="content"><strong>إسماعيل AI:</strong> <p>أنا خبير طقس عالمي. اكتب اسم أي مدينة في العالم وسأخبرك بحال الطقس فيها فوراً!</p></div>
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-box">
-            <input type="text" placeholder="اسأل إسماعيل عن مشاريعه...">
-            <i class="fas fa-paper-plane" style="color: #acacbe; cursor: pointer;"></i>
+            <input type="text" id="userInput" placeholder="اكتب اسم المدينة هنا (مثلاً: طنجة، باريس، مكة)..." onkeypress="if(event.key === 'Enter') askAI()">
+            <button onclick="askAI()"><i class="fas fa-paper-plane"></i></button>
         </div>
-    </div>
-
-    <div style="text-align: center; padding-bottom: 10px;">
-        <a href="https://instagram.com/i60ma70il" class="btn-social"><i class="fab fa-instagram"></i> Instagram</a>
-        <a href="https://github.com/ismailgaffa-dotcom" class="btn-social"><i class="fab fa-github"></i> GitHub</a>
+        <p style="font-size: 12px; color: #acacbe; margin-top: 10px;">إسماعيل AI يمكنه البحث في أي مكان في العالم.</p>
     </div>
 
     <script>
-        async function fetchWeather() {
+        async function askAI() {
+            const input = document.getElementById('userInput');
+            const city = input.value.trim();
+            if (!city) return;
+
+            // إضافة رسالة المستخدم للشاشة
+            appendMessage('user', city);
+            input.value = '';
+
             try {
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=35.76&longitude=-5.80&current_weather=true');
-                const data = await res.json();
-                document.getElementById('weather-info').innerHTML = `حالة الطقس الحالية في طنجة هي ${data.current_weather.temperature}°C. هل هناك شيء آخر تود معرفته؟`;
-            } catch (e) {
-                document.getElementById('weather-info').innerHTML = "معلومات الطقس غير متاحة حالياً.";
+                // 1. البحث عن إحداثيات المدينة
+                const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=ar`);
+                const geoData = await geoRes.json();
+
+                if (!geoData.results) {
+                    appendMessage('ai', `عذراً، لم أستطع العثور على مدينة بهذا الاسم. تأكد من الكتابة بشكل صحيح.`);
+                    return;
+                }
+
+                const { latitude, longitude, name, country } = geoData.results[0];
+
+                // 2. جلب الطقس باستخدام الإحداثيات
+                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+                const weatherData = await weatherRes.json();
+                const temp = weatherData.current_weather.temperature;
+
+                appendMessage('ai', `الطقس في ${name} (${country}) حالياً هو ${temp}°C. هل تود معرفة مدينة أخرى؟`);
+                
+            } catch (error) {
+                appendMessage('ai', "حدث خطأ أثناء الاتصال بالخادم. حاول مرة أخرى.");
             }
         }
-        fetchWeather();
+
+        function appendMessage(role, text) {
+            const history = document.getElementById('chatHistory');
+            const msg = document.createElement('div');
+            msg.className = 'message';
+            msg.innerHTML = `
+                <div class="avatar ${role}-avatar">${role === 'ai' ? 'I' : 'U'}</div>
+                <div class="content">
+                    <strong>${role === 'ai' ? 'إسماعيل AI' : 'أنت'}:</strong>
+                    <p>${text}</p>
+                </div>`;
+            history.appendChild(msg);
+            history.scrollTop = history.scrollHeight;
+        }
     </script>
 </body>
 </html>
