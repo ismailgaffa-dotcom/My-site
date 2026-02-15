@@ -3,96 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الطقس AI - Global Multi-Language</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>إسماعيل غفة | Ismail Gaffa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0e1621; --tg-sent: #2b5278; --accent: #64b5f6; }
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: white; height: 100vh; display: flex; flex-direction: column; }
-        .header { background: #242f3d; padding: 15px; display: flex; align-items: center; gap: 15px; border-bottom: 2px solid var(--tg-sent); }
-        .chat-area { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
-        .msg { max-width: 85%; padding: 15px; border-radius: 18px; line-height: 1.6; font-size: 15px; }
-        .ai { background: var(--tg-sent); align-self: flex-start; border-bottom-right-radius: 4px; }
-        .user { background: #182533; align-self: flex-end; border-bottom-left-radius: 4px; color: #a8b2bd; }
-        .report-card { background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px; margin-top: 10px; border-left: 5px solid var(--accent); }
-        .input-bar { background: #242f3d; padding: 15px; display: flex; gap: 10px; }
-        input { flex: 1; background: #17212b; border: none; border-radius: 25px; padding: 12px 20px; color: white; outline: none; }
-        button { background: var(--accent); border: none; color: white; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; }
+        /* CSS - التصميم */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --text-color: #333;
+            --bg-color: #f4f7f6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: #fff;
+            max-width: 500px;
+            width: 90%;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+            margin-bottom: 20px;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .bio {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            color: #fff;
+            background: var(--secondary-color);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        /* تحسينات للشاشات الصغيرة */
+        @media (max-width: 480px) {
+            .card { padding: 20px; }
+            .social-links { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div style="width:45px; height:45px; border-radius:50%; background:linear-gradient(45deg, #10a37f, #64b5f6); display:flex; align-items:center; justify-content:center; font-size:22px;">🌍</div>
-    <div>
-        <div style="font-weight: bold;" id="botTitle">الطقس AI - Multilingual</div>
-        <div style="font-size: 11px; color: var(--accent);" id="botStatus">يدعم العربية، English، Français...</div>
+    <div class="card">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ismail" alt="Ismail Gaffa" class="profile-img">
+        
+        <h1>إسماعيل غفة</h1>
+        <span class="title">مطور ويب ورائد أعمال</span>
+        
+        <p class="bio">
+            مرحباً بك في مساحتي الخاصة! أنا شغوف ببناء الحلول الرقمية، وتطوير المواقع التي تجمع بين الأداء العالي والتصميم الجذاب. أسعى دائماً لتعلم كل ما هو جديد في عالم التقنية.
+        </p>
+
+        <div class="social-links">
+            <a href="https://github.com/Ismailgaffa-dotcom" target="_blank">GitHub</a>
+            <a href="#" target="_blank">LinkedIn</a>
+            <a href="mailto:your-email@example.com">تواصل معي</a>
+        </div>
     </div>
-</div>
 
-<div class="chat-area" id="chat">
-    <div class="msg ai" id="welcomeMsg">أهلاً بك! أنا خبير الأرصاد العالمي. اكتب اسم أي مدينة وسأرد عليك بنفس لغتك.</div>
-</div>
-
-<div class="input-bar">
-    <input type="text" id="cityInput" placeholder="Write a city... اكتب اسم مدينة..." onkeypress="if(event.key === 'Enter') analyze()">
-    <button onclick="analyze()"><i class="fas fa-paper-plane"></i></button>
-</div>
-
-<script>
-    async function analyze() {
-        const input = document.getElementById('cityInput');
-        let city = input.value.trim();
-        if(!city) return;
-
-        addMsg('user', city);
-        input.value = '';
-
-        // كشف اللغة (بسيط: إذا احتوى على حروف عربية)
-        const isArabic = /[\u0600-\u06FF]/.test(city);
-        const lang = isArabic ? 'ar' : 'en';
-
-        // تنظيف البحث (إزالة كلمة المغرب إذا كتبت طنجة المغرب) لضمان عمل الـ API
-        let cleanCity = city.replace(/المغرب|Morocco|maroc/gi, '').trim();
-
-        try {
-            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(cleanCity)}&count=1&language=${lang}`);
-            const geoData = await geoRes.json();
-            
-            if(!geoData.results) {
-                addMsg('ai', isArabic ? '⚠️ لم أجد المدينة، جرب اسماً أبسط.' : '⚠️ City not found, try a simpler name.');
-                return;
-            }
-
-            const {latitude, longitude, name, country} = geoData.results[0];
-            const wRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=precipitation_probability,relativehumidity_2m&timezone=auto`);
-            const w = await wRes.json();
-
-            const temp = w.current_weather.temperature;
-            const wind = w.current_weather.windspeed;
-            const rain = w.hourly.precipitation_probability[0];
-
-            let report = isArabic ? `<b>تحليل ${name} (${country}):</b><br>` : `<b>Analysis for ${name} (${country}):</b><br>`;
-            report += `<div class="report-card">`;
-            report += isArabic ? `🌡️ الحرارة: ${temp}°C<br>` : `🌡️ Temp: ${temp}°C<br>`;
-            report += isArabic ? `💨 الرياح: ${wind} كم/س<br>` : `💨 Wind: ${wind} km/h<br>`;
-            report += isArabic ? `☔ المطر: ${rain}%` : `☔ Rain: ${rain}%`;
-            report += `</div>`;
-
-            if(rain > 70) report += `<div style="color:#ff5252; margin-top:10px; font-weight:bold;">${isArabic ? '⚠️ خطر فيضانات!' : '⚠️ Flood Risk!'}</div>`;
-
-            addMsg('ai', report);
-        } catch(e) {
-            addMsg('ai', 'Error ❌');
-        }
-    }
-
-    function addMsg(t, s) {
-        const c = document.getElementById('chat');
-        const d = document.createElement('div');
-        d.className = `msg ${t}`; d.innerHTML = s;
-        c.appendChild(d); c.scrollTop = c.scrollHeight;
-    }
-</script>
 </body>
 </html>
-
